@@ -1,0 +1,10 @@
+#Makefile to automate protos compilation
+
+
+#*** main method ***
+final: 
+	@echo CREATING GO PROTOS
+	protoc --go_out=go_pkg/ --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./proto/account.proto
+	@echo CREATING NODEJS PROTOS 
+	protocol-buffers ./proto/account.proto -o ./node_pkg/proto/account.js
+

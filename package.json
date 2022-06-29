@@ -1,0 +1,27 @@
+{
+  "name": "eog_protobuffers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewAlizaga/eog_protos.git"
+  },
+  "keywords": [
+    "PROTOS",
+    "GRPC"
+  ],
+  "author": "Andrew Alizaga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndrewAlizaga/eog_protos/issues"
+  },
+  "homepage": "https://github.com/AndrewAlizaga/eog_protos#readme",
+  "dependencies": {
+    "pbjs": "0.0.14",
+    "protobufjs": "^6.11.3"
+  }
+}
