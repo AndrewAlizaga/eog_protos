@@ -5,7 +5,13 @@ package account;
 
 option go_package = "github.com/AndrewAlizaga/eog_protos;accountpb";
 
-
+enum RequestStatus {
+    UNKNOWN = 0;
+    FINISHED = 1;
+    SUCCESS = 2;
+    FAILURE = 3;
+    PENDING = 4;
+}
 
 message Account {
     string id = 1;
@@ -35,3 +41,9 @@ message GetAccountRequest {
 message GetAccountByEmailRequest{
     string email = 1;
 }
+
+message AccountResponse {
+    Account account = 1;
+    RequestStatus status = 2;
+}
+

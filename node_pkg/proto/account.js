@@ -10,6 +10,14 @@ var encodings = require('protocol-buffers-encodings')
 var varint = encodings.varint
 var skip = encodings.skip
 
+exports.RequestStatus = {
+  UNKNOWN: 0,
+  FINISHED: 1,
+  SUCCESS: 2,
+  FAILURE: 3,
+  PENDING: 4
+}
+
 var Account = exports.Account = {
   buffer: true,
   encodingLength: null,
@@ -45,11 +53,19 @@ var GetAccountByEmailRequest = exports.GetAccountByEmailRequest = {
   decode: null
 }
 
+var AccountResponse = exports.AccountResponse = {
+  buffer: true,
+  encodingLength: null,
+  encode: null,
+  decode: null
+}
+
 defineAccount()
 defineUpdateAccountRequest()
 definePostAccountRequest()
 defineGetAccountRequest()
 defineGetAccountByEmailRequest()
+defineAccountResponse()
 
 function defineAccount () {
   Account.encodingLength = encodingLength
@@ -430,6 +446,80 @@ function defineGetAccountByEmailRequest () {
         case 1:
         obj.email = encodings.string.decode(buf, offset)
         offset += encodings.string.decode.bytes
+        break
+        default:
+        offset = skip(prefix & 7, buf, offset)
+      }
+    }
+  }
+}
+
+function defineAccountResponse () {
+  AccountResponse.encodingLength = encodingLength
+  AccountResponse.encode = encode
+  AccountResponse.decode = decode
+
+  function encodingLength (obj) {
+    var length = 0
+    if (defined(obj.account)) {
+      var len = Account.encodingLength(obj.account)
+      length += varint.encodingLength(len)
+      length += 1 + len
+    }
+    if (defined(obj.status)) {
+      var len = encodings.enum.encodingLength(obj.status)
+      length += 1 + len
+    }
+    return length
+  }
+
+  function encode (obj, buf, offset) {
+    if (!offset) offset = 0
+    if (!buf) buf = Buffer.allocUnsafe(encodingLength(obj))
+    var oldOffset = offset
+    if (defined(obj.account)) {
+      buf[offset++] = 10
+      varint.encode(Account.encodingLength(obj.account), buf, offset)
+      offset += varint.encode.bytes
+      Account.encode(obj.account, buf, offset)
+      offset += Account.encode.bytes
+    }
+    if (defined(obj.status)) {
+      buf[offset++] = 16
+      encodings.enum.encode(obj.status, buf, offset)
+      offset += encodings.enum.encode.bytes
+    }
+    encode.bytes = offset - oldOffset
+    return buf
+  }
+
+  function decode (buf, offset, end) {
+    if (!offset) offset = 0
+    if (!end) end = buf.length
+    if (!(end <= buf.length && offset <= buf.length)) throw new Error("Decoded message is not valid")
+    var oldOffset = offset
+    var obj = {
+      account: null,
+      status: 0
+    }
+    while (true) {
+      if (end <= offset) {
+        decode.bytes = offset - oldOffset
+        return obj
+      }
+      var prefix = varint.decode(buf, offset)
+      offset += varint.decode.bytes
+      var tag = prefix >> 3
+      switch (tag) {
+        case 1:
+        var len = varint.decode(buf, offset)
+        offset += varint.decode.bytes
+        obj.account = Account.decode(buf, offset, offset + len)
+        offset += Account.decode.bytes
+        break
+        case 2:
+        obj.status = encodings.enum.decode(buf, offset)
+        offset += encodings.enum.decode.bytes
         break
         default:
         offset = skip(prefix & 7, buf, offset)
