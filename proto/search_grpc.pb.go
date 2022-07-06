@@ -4,7 +4,7 @@
 // - protoc             v3.6.1
 // source: proto/search.proto
 
-package searchpb
+package searchv1
 
 import (
 	context "context"
