@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package search;
 
-option go_package = "github.com/AndrewAlizaga/eog_protos/go_pkg/search/proto;searchv1";
+option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/search;searchv1";
 
 
 enum SearchStatus {
