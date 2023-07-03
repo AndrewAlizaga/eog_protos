@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package search;
+import "proto/shared/shared.proto";
+import "proto/case/case.proto";
+
 
 option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/search;searchv1";
 
@@ -19,19 +22,19 @@ message Search {
     // @inject_tag: json:"id" bson:"id"
     string id = 1;
     // @inject_tag: json:"name" bson:"name"
-    string name = 2;
-    // @inject_tag: json:"leads" bson:"leads"
-    repeated string leads = 3;
+    string subjectName = 2;
+    // @inject_tag: json:"cases" bson:"cases"
+    repeated string cases = 3;
 }
 
 //  SearchRequest model.
 message SearchRequest {
     // @inject_tag: json:"case_name" bson:"case_name"
-    string caseName = 1;
-    // @inject_tag: json:"search_name" bson:"search_name"
-    string searchName = 2;
-    // @inject_tag: json:"api_key" bson:"api_key"
-    string apiKey = 3;
+    Case case = 1;
+    // @inject_tag: json:"search_owner" bson:"search_owner"
+    string searchOwner = 4;
+    // @inject_tag: json:"filters" bson:"filters"
+    repeated CaseFilters filters = 3;
 }
 
 // SearchResponse model.
@@ -46,8 +49,8 @@ message SearchResponse {
 service SearchService {
 
     // Get search
-    rpc GetSearch (Search) returns (SearchResponse){};
+    rpc GetSearch (shared.SharedID) returns (SearchResponse){};
 
     // Post search
-    rpc PostSearch (Search) returns (SearchResponse){};
+    rpc PostSearch (SearchRequest) returns (SearchResponse){};
 }

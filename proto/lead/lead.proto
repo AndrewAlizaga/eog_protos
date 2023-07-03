@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package lead;
+
+option go_package = "github.com/AndrewAlizaga/eog_protos/lead;leadv1";
+
+enum LeadStatus {
+    UNKNOWN = 0;
+    PENDING = 1;
+    FINISHED = 2;
+    ERROR = 3;
+    FINISHED_WITH_ERROR = 4;
+}
+
+enum Classification {
+    UNKNOWN = 0;
+    VIOLENT = 1;
+    BUSSINES = 2;
+    MISCELLANIOUS = 3;
+    PEOPLE = 4;
+    INDUSTRY = 5;
+    EMOTIONAL = 6;
+    CRIMINAL = 7;
+}
+
+// Lead model
+message Lead {
+    // @inject_tag: json:"id" bson:"id"
+    string id = 0;
+    // @inject_tag: json:"search_id" bson:"search_id"
+    string searchID = 1;
+    // @inject_tag json:"subject_full_name" bson:"subject_full_name"
+    string subjectFullName = 2;
+    // @inject_tag json:"classification" bson:"classification"
+    Classification Classification = 3;
+    // @inject_tag json:"content" bson:"content"
+    string content = 4;
+    // @inject_tag json:"key_content" bson:"key_content"
+    repeated string keyContent = 5;
+    // @inject_tag json:"created_at" bson:"created_at"
+    string createdAt = 6;
+    // @inject_tag json:"updated_at" bson:"updated_at"
+    string updatedAt = 7;
+    // @inject_tag: json:"source" bson:"source"
+    string source = 8;
+}
