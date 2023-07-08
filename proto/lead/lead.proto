@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package lead;
 
-option go_package = "github.com/AndrewAlizaga/eog_protos/lead;leadv1";
+option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/lead;leadv1";
 
 enum LeadStatus {
     UNKNOWN = 0;
@@ -13,7 +13,7 @@ enum LeadStatus {
 }
 
 enum Classification {
-    UNKNOWN = 0;
+    UNKNOWN_CLASSIFICATION = 0;
     VIOLENT = 1;
     BUSSINES = 2;
     MISCELLANIOUS = 3;
@@ -26,21 +26,33 @@ enum Classification {
 // Lead model
 message Lead {
     // @inject_tag: json:"id" bson:"id"
-    string id = 0;
+    string id = 1;
     // @inject_tag: json:"search_id" bson:"search_id"
-    string searchID = 1;
+    string searchID = 2;
     // @inject_tag json:"subject_full_name" bson:"subject_full_name"
-    string subjectFullName = 2;
+    string subjectFullName = 3;
     // @inject_tag json:"classification" bson:"classification"
-    Classification Classification = 3;
+    Classification Classification = 4;
     // @inject_tag json:"content" bson:"content"
-    string content = 4;
+    string content = 5;
     // @inject_tag json:"key_content" bson:"key_content"
-    repeated string keyContent = 5;
+    repeated string keyContent = 6;
     // @inject_tag json:"created_at" bson:"created_at"
-    string createdAt = 6;
+    string createdAt = 7;
     // @inject_tag json:"updated_at" bson:"updated_at"
-    string updatedAt = 7;
+    string updatedAt = 8;
     // @inject_tag: json:"source" bson:"source"
-    string source = 8;
+    string source = 9;
+}
+
+// LeadView model
+message LeadView {
+
+    // @inject_tag: json:"led_id" bson:"led_id"
+    string led_id = 1;
+    // @inject_tag: json:"subject_name" bson:"subject_name"
+    string subject_name = 2;
+    // @inject_tag: json:"lead_status" bson:"lead_status"
+    string lead_status = 3;
+
 }

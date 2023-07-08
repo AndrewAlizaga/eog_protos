@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 package case;
+import "proto/lead/lead.proto";
+
 
 option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/case;casev1";
 
@@ -14,7 +16,7 @@ enum CaseStatus {
 }
 
 enum CaseFilters {
-    UNKNOWN = 0;
+    UNKNOWN_FILTER = 0;
     VIOLENT = 1;
     BUSSINES = 2;
     MISCELLANIOUS = 3;
@@ -43,24 +45,7 @@ message CaseResponse {
     // @inject_tag: json:"case" bson:"case"
     Case case = 1;
     // @inject_tag: json:"case_leads" bson:"case_leads"
-    repeated Lead caseLeads = 2;
+    repeated lead.Lead caseLeads = 2;
 
 }
 
-// SearchResponse model.
-message SearchResponse {
-    // @inject_tag: json:"search_status" bson:"search_status"
-    SearchStatus searchStatus = 1;
-    // @inject_tag: json:"search" bson:"search"
-    Search search = 2; 
-}
-
-// SearchService ...
-service SearchService {
-
-    // Get search
-    rpc GetSearch (Search) returns (SearchResponse){};
-
-    // Post search
-    rpc PostSearch (Search) returns (SearchResponse){};
-}

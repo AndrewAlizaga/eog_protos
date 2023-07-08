@@ -30,11 +30,11 @@ message Search {
 //  SearchRequest model.
 message SearchRequest {
     // @inject_tag: json:"case_name" bson:"case_name"
-    Case case = 1;
+    case.Case case = 1;
     // @inject_tag: json:"search_owner" bson:"search_owner"
-    string searchOwner = 4;
+    string searchOwner = 2;
     // @inject_tag: json:"filters" bson:"filters"
-    repeated CaseFilters filters = 3;
+    repeated case.CaseFilters filters = 3;
 }
 
 // SearchResponse model.
@@ -43,6 +43,8 @@ message SearchResponse {
     SearchStatus searchStatus = 1;
     // @inject_tag: json:"search" bson:"search"
     Search search = 2; 
+    // @inject_tag: json:"case_response" bson:"case_response"
+    case.CaseResponse caseResponse = 3; 
 }
 
 // SearchService ...
@@ -54,3 +56,4 @@ service SearchService {
     // Post search
     rpc PostSearch (SearchRequest) returns (SearchResponse){};
 }
+

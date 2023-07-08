@@ -2,8 +2,8 @@ syntax="proto3";
 
 package shared;
 
-option go_package = "github.com/AndrewAlizaga/eog_protos/shared;sharedv1";
+option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/shared;sharedv1";
 
 message SharedID {
-    string id = 0;
+    string id = 1;
 }
