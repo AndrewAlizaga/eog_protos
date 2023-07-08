@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package case;
+import "proto/lead/lead.proto";
+
+
+option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/case;casev1";
+
+
+enum CaseStatus {
+    UNKNOWN = 0;
+    STARTED = 1;
+    PENDING = 2;
+    FINISHED = 3;
+    ABORTED = 4;
+}
+
+enum CaseFilters {
+    UNKNOWN_FILTER = 0;
+    VIOLENT = 1;
+    BUSSINES = 2;
+    MISCELLANIOUS = 3;
+    PEOPLE = 4;
+    INDUSTRY = 5;
+    EMOTIONAL = 6;
+    CRIMINAL = 7;
+}
+
+
+// Search model.
+message Case {
+    // @inject_tag: json:"status" bson:"status"
+    CaseStatus status = 1;
+    // @inject_tag: json:"subjectName" bson:"subjectName"
+    string subjectName = 2;
+    // @inject_tag: json:"filters" bson:"filters"
+    repeated CaseFilters filters = 3;
+    // @inject_tag: json:"urlLeads" bson:"urlLeads"
+    repeated string urlLeads = 4;
+
+}
+
+//  SearchRequest model.
+message CaseResponse {
+    // @inject_tag: json:"case" bson:"case"
+    Case case = 1;
+    // @inject_tag: json:"case_leads" bson:"case_leads"
+    repeated lead.Lead caseLeads = 2;
+
+}
+
