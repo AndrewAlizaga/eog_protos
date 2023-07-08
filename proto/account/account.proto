@@ -20,6 +20,10 @@ message Account {
     string email = 4;
 }
 
+message Jwt {
+    string jwt = 1;
+}
+
 message UpdateAccountRequest {
     string id = 1;
     string name = 2;
@@ -45,5 +49,21 @@ message GetAccountByEmailRequest{
 message AccountResponse {
     Account account = 1;
     RequestStatus status = 2;
+    string jwt = 3;
+}
+
+
+service AccountService {
+
+    //login
+    rpc AccountLogin(Account) returns (AccountResponse);
+    
+    //register
+    rpc AccountRegister(Account) returns (AccountResponse);
+
+    //auth
+    rpc AccountAuth(Jwt) returns (AccountResponse);
+
+
 }
 
